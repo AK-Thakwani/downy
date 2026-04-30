@@ -1,0 +1,43 @@
+<section class="container" style="margin-top: 10rem; display: flex; justify-content: center; align-items: center; min-height: 70vh;">
+    <div class="card" style="width: 100%; max-width: 500px; padding: 4rem; text-align: center; background: white; border-radius: 60px; box-shadow: 0 40px 100px rgba(0,0,0,0.1);">
+        <div style="background: var(--accent); width: 80px; height: 80px; border-radius: 25px; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; box-shadow: var(--shadow-accent);">
+            <i class="fa fa-lock" style="font-size: 2rem; color: var(--accent-dark);"></i>
+        </div>
+        <h2 style="font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 0.5rem;">Admin Access</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 3rem;">Please enter your credentials to manage the store.</p>
+        
+        {{#if ERROR}}
+        <div style="background: #fee2e2; color: #ef4444; padding: 1rem; border-radius: 20px; margin-bottom: 2rem; font-weight: 600;">
+            <i class="fa fa-exclamation-circle"></i> {{ERROR}}
+        </div>
+        {{/if}}
+
+        <form action="/loginadmin" method="POST">
+            <div style="margin-bottom: 1.5rem; text-align: left;">
+                <label style="font-weight: 700; font-size: 0.9rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">USERNAME</label>
+                <input type="text" name="UserName" placeholder="admin" required style="width: 100%; padding: 1.2rem 2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 30px; font-weight: 600; font-size: 1rem; outline: none; transition: var(--transition);">
+            </div>
+            
+            <div style="margin-bottom: 3rem; text-align: left;">
+                <label style="font-weight: 700; font-size: 0.9rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">PASSWORD</label>
+                <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 1.2rem 2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 30px; font-weight: 600; font-size: 1rem; outline: none; transition: var(--transition);">
+            </div>
+
+            <button type="submit" class="cart-btn" style="width: 100%; padding: 1.5rem; font-size: 1.1rem; justify-content: center; box-shadow: 0 15px 30px rgba(188, 255, 47, 0.4);">
+                Secure Login
+            </button>
+        </form>
+        
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.5;">
+            Forget password? Contact technical support.
+        </p>
+    </div>
+</section>
+
+<style>
+    input:focus {
+        border-color: var(--accent) !important;
+        background: white !important;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+</style>

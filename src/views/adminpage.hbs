@@ -1,0 +1,189 @@
+<section class="container" style="margin-top: 12rem;">
+    <div class="section-header" style="flex-direction: column; align-items: flex-start; gap: 1rem;">
+        <p style="color: #22c55e; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">COMMAND CENTER</p>
+        <h2 style="font-size: 4rem; font-weight: 900; letter-spacing: -2px;">Executive Dashboard</h2>
+    </div>
+
+    <!-- Analytics Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 4rem;">
+        <div class="card stat-card">
+            <div class="stat-icon" style="background: #ecfdf5; color: #10b981;"><i class="fa fa-dollar-sign"></i></div>
+            <p>Total Revenue</p>
+            <h3>${{stats.totalRevenue}}</h3>
+            <div class="mini-chart"><div style="width: 70%;"></div></div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-icon" style="background: #eff6ff; color: #3b82f6;"><i class="fa fa-shopping-bag"></i></div>
+            <p>Total Orders</p>
+            <h3>{{stats.orderCount}}</h3>
+            <div class="mini-chart"><div style="width: 45%; background: #3b82f6;"></div></div>
+        </div>
+        <div class="card stat-card">
+            <div class="stat-icon" style="background: #fff1f2; color: #f43f5e;"><i class="fa fa-exclamation-triangle"></i></div>
+            <p>Low Stock Items</p>
+            <h3>{{stats.lowStockCount}}</h3>
+            <div class="mini-chart"><div style="width: 20%; background: #f43f5e;"></div></div>
+        </div>
+        <div class="card stat-card" style="background: var(--accent-dark); color: white;">
+            <div class="stat-icon" style="background: rgba(255,255,255,0.1); color: var(--accent);"><i class="fa fa-bolt"></i></div>
+            <p style="color: rgba(255,255,255,0.5);">Server Status</p>
+            <h3>ONLINE</h3>
+            <p style="font-size: 0.7rem; font-weight: 700; color: var(--accent); margin-top: 1rem;"><i class="fa fa-circle"></i> SYSTEM STABLE</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions Grid -->
+    <div style="margin-top: 5rem;">
+        <h3 style="font-size: 2rem; font-weight: 900; margin-bottom: 2.5rem; letter-spacing: -1px;">Quick Operations</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <a href="/insertproduct" class="action-card">
+                <i class="fa fa-plus-circle"></i>
+                <span>Add Product</span>
+            </a>
+            <a href="/checkrecord" class="action-card">
+                <i class="fa fa-list-alt"></i>
+                <span>View Orders</span>
+            </a>
+            <a href="/checkstock" class="action-card">
+                <i class="fa fa-boxes"></i>
+                <span>Check Stock</span>
+            </a>
+            <a href="/stockupdate" class="action-card">
+                <i class="fa fa-sync"></i>
+                <span>Update Stock</span>
+            </a>
+            <a href="/loginadmin" class="action-card" style="border-color: #fee2e2; color: #ef4444;">
+                <i class="fa fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Creative Element: Sales Pulse -->
+    <div class="card" style="margin-top: 5rem; padding: 4rem; border-radius: 60px; background: white; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -10%; right: -5%; font-size: 15rem; font-weight: 900; opacity: 0.03; pointer-events: none;">PULSE</div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 200px; gap: 1rem;">
+            <div class="bar" style="height: 40%;"></div>
+            <div class="bar" style="height: 60%;"></div>
+            <div class="bar" style="height: 35%;"></div>
+            <div class="bar" style="height: 90%; background: var(--accent-dark);"></div>
+            <div class="bar" style="height: 55%;"></div>
+            <div class="bar" style="height: 80%;"></div>
+            <div class="bar" style="height: 45%;"></div>
+            <div class="bar" style="height: 65%;"></div>
+        </div>
+        <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h4 style="font-weight: 900; font-size: 1.5rem;">Weekly Sales Pulse</h4>
+                <p style="color: var(--text-secondary);">Market activity is up 12% compared to last week.</p>
+            </div>
+            <div style="background: var(--bg-beige); padding: 1rem 2rem; border-radius: 20px; font-weight: 800;">
+                LIVE FEED <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .stat-card {
+        padding: 3rem;
+        border-radius: 40px;
+        text-align: left;
+        transition: var(--transition);
+        border: 1px solid transparent;
+    }
+    .stat-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-10px);
+    }
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .stat-card p {
+        font-weight: 700;
+        opacity: 0.5;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .stat-card h3 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+    .mini-chart {
+        width: 100%;
+        height: 6px;
+        background: var(--bg-beige);
+        border-radius: 3px;
+        margin-top: 2rem;
+        overflow: hidden;
+    }
+    .mini-chart div {
+        height: 100%;
+        background: #10b981;
+        border-radius: 3px;
+    }
+    
+    .action-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 35px;
+        text-align: center;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-weight: 800;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: var(--transition);
+        border: 2px solid transparent;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+    .action-card i {
+        font-size: 2rem;
+        opacity: 0.2;
+        transition: var(--transition);
+    }
+    .action-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-5px);
+        background: var(--accent);
+    }
+    .action-card:hover i {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .bar {
+        flex: 1;
+        background: var(--bg-beige);
+        border-radius: 10px;
+        transition: 1s ease-in-out;
+    }
+    .bar:hover {
+        background: var(--accent);
+        transform: scaleY(1.05);
+    }
+    
+    .dot {
+        height: 8px;
+        width: 8px;
+        background-color: #ef4444;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 5px;
+        animation: pulse-dot 1s infinite;
+    }
+    @keyframes pulse-dot {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+</style>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downy | Beyond Limits</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cart-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">Downy<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/shop">Products</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/track">Track Order</a></li>
+        </ul>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <a href="/loginadmin" style="color: var(--text-primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">Sign in</a>
+            <a href="/checkout" class="cart-btn" style="position: relative;">
+                <i class="fa fa-shopping-cart"></i>
+                Cart
+                {{#if cartCount}}
+                <span class="cart-badge">{{cartCount}}</span>
+                {{/if}}
+            </a>
+        </div>
+    </nav>
+
+    {{{body}}}
+
+    <footer style="background: var(--accent-dark); color: white; padding: 8rem 5% 4rem; border-radius: 60px 60px 0 0; margin-top: 10rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4rem; max-width: 1400px; margin: 0 auto;">
+            <div>
+                <a href="/" class="logo" style="color: white;">Downy<span>.</span></a>
+                <p style="margin-top: 2rem; opacity: 0.6;">Redefining the way you walk. Experience the perfect harmony of comfort and futuristic design.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 2rem; color: var(--accent);">Navigation</h4>
+                <ul style="list-style: none; display: grid; gap: 1rem;">
+                    <li><a href="/shop" style="color: white; text-decoration: none; opacity: 0.8;">Shop All</a></li>
+                    <li><a href="/formals" style="color: white; text-decoration: none; opacity: 0.8;">Formals</a></li>
+                    <li><a href="/casuals" style="color: white; text-decoration: none; opacity: 0.8;">Casuals</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 2rem; color: var(--accent);">Contact</h4>
+                <p style="opacity: 0.8;">info@downy.com</p>
+                <p style="opacity: 0.8; margin-top: 1rem;">Karachi, Pakistan</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 2rem; color: var(--accent);">Follow Us</h4>
+                <div style="display: flex; gap: 1.5rem; font-size: 1.5rem;">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-facebook"></i>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); opacity: 0.4; font-size: 0.8rem;">
+            &copy; 2026 DOWNY FOOTWEAR CO. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<div class="card" style="border-radius: 50px;">
+    <span class="category">{{category}}</span>
+    <h3 style="font-size: 1.8rem; font-weight: 900;">{{this.Pname}}</h3>
+    <img src="/{{this.Firstimg}}" alt="{{this.Pname}}" style="transition: var(--transition);">
+    <div class="footer">
+        <p class="price" style="font-size: 1.8rem;">${{this.price}}</p>
+        <form action="/single" method="POST">
+            <input type="hidden" name="id" value="{{this.Pid}}">
+            <input type="hidden" name="shoe_item" value="{{this.Pname}}">
+            <input type="hidden" name="amount" value="{{this.price}}">
+            <button type="submit" class="add-btn" style="width: 60px; height: 60px; border-radius: 25px;">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</div>

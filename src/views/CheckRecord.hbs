@@ -1,0 +1,244 @@
+<section class="container" style="margin-top: 12rem;">
+    <div class="section-header">
+        <div>
+            <p style="color: #22c55e; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">ADMIN CONTROL</p>
+            <h2 style="font-size: 4rem; font-weight: 900; letter-spacing: -2px;">Order Records</h2>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <form action="/prune-cancelled" method="POST" onsubmit="return confirm('This will permanently delete all CANCELLED orders to save space. Proceed?')" style="margin: 0;">
+                <button type="submit" style="background: #fee2e2; color: #ef4444; border: 2px solid #ef4444; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem; height: 100%;">
+                    <i class="fas fa-broom"></i> PRUNE CANCELLED
+                </button>
+            </form>
+            <a href="/insertproduct" class="cart-btn" style="background: white; color: var(--accent-dark); border: 2px solid var(--accent-dark); padding: 0.8rem 1.5rem; font-size: 0.8rem;">Add Product</a>
+            <a href="/checkstock" class="cart-btn" style="padding: 0.8rem 1.5rem; font-size: 0.8rem;">Check Stock</a>
+        </div>
+    </div>
+
+    {{#if MSGGG}}
+    <div id="message-banner" style="margin-top: 3rem; background: #f0fdf4; border: 2px solid #22c55e; padding: 2rem; border-radius: 30px; display: flex; align-items: center; gap: 1.5rem; animation: slide-down 0.5s ease-out;">
+        <div style="background: #22c55e; width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i class="fa fa-check" style="color: white; font-size: 1.5rem;"></i>
+        </div>
+        <p style="font-size: 1.2rem; font-weight: 700; color: #166534; margin: 0;">{{MSGGG}}</p>
+        <button onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #166534; opacity: 0.5;">&times;</button>
+    </div>
+    {{/if}}
+
+    <div style="margin-top: 4rem; background: white; padding: 2rem; border-radius: 40px; box-shadow: var(--shadow);">
+        <form action="/checkrecord" method="POST" style="display: flex; gap: 1rem;">
+            <input type="text" name="OrderId" placeholder="Search by Order ID..." style="flex: 1; padding: 1.2rem 2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 30px; font-weight: 600; outline: none; transition: var(--transition);">
+            <button type="submit" class="cart-btn" style="padding: 1.2rem 3rem;">Search Record</button>
+        </form>
+    </div>
+
+    <div style="display: grid; gap: 2rem; margin-top: 3rem;">
+        {{#each objectArray1}}
+        <div class="card" style="display: grid; grid-template-columns: 1.5fr 2fr 1fr; gap: 3rem; align-items: center; padding: 3rem; border-radius: 50px; text-align: left; background: white;">
+            <div>
+                <p style="opacity: 0.4; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Order Reference</p>
+                <h3 style="font-size: 2.5rem; font-weight: 900; color: var(--accent-dark); line-height: 1;">#{{this.Order_id}}</h3>
+                
+                <form action="/update-status" method="POST" style="margin-top: 0.5rem;" id="status-form-{{this.Order_id}}">
+                    <input type="hidden" name="OrderId" value="{{this.Order_id}}">
+                    <select name="status" onchange="handleStatusChange(this, '{{this.Order_id}}')" style="background: #fdfcf0; border: none; font-weight: 700; color: #22c55e; outline: none; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 10px;">
+                        <option value="Pending" {{#if (eq this.status 'Pending')}}selected{{/if}}>Pending</option>
+                        <option value="Shipped" {{#if (eq this.status 'Shipped')}}selected{{/if}}>Shipped</option>
+                        <option value="Delivered" {{#if (eq this.status 'Delivered')}}selected{{/if}}>Delivered</option>
+                        <option value="Cancelled" {{#if (eq this.status 'Cancelled')}}selected{{/if}}>Cancelled</option>
+                    </select>
+                </form>
+            </div>
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h4 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem;">{{this.Full_name}}</h4>
+                        <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6;">{{this.Address}}, {{this.City}}</p>
+                        <p style="opacity: 0.6; font-size: 0.9rem; font-weight: 600;">{{this.email}}</p>
+                    </div>
+                    <button onclick="showNumber('{{this.Mobile_no}}', '{{this.Full_name}}')" style="background: var(--accent); color: var(--accent-dark); width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: var(--shadow-accent);">
+                        <i class="fa fa-phone" style="font-size: 1.5rem;"></i>
+                    </button>
+                </div>
+            </div>
+            <div style="text-align: right; border-left: 1px solid var(--bg-beige); padding-left: 3rem;">
+                <p style="font-weight: 800; opacity: 0.4; font-size: 0.8rem; text-transform: uppercase;">Payment</p>
+                <p style="font-size: 1.2rem; font-weight: 900; margin-top: 0.2rem;">${{this.total_amount}}</p>
+                <p style="font-size: 0.8rem; font-weight: 700; opacity: 0.6; margin-top: 0.5rem;">VIA {{this.method}}</p>
+                <form action="/checkrecord" method="POST" style="margin-top: 2rem;">
+                    <input type="hidden" name="OrderId" value="{{this.Order_id}}">
+                    <button type="submit" style="background: var(--accent-dark); color: var(--accent); border: none; padding: 1rem 2rem; border-radius: 20px; font-weight: 800; cursor: pointer; transition: var(--transition); width: 100%;">
+                        Full Details
+                    </button>
+                </form>
+                <form action="/delete-order" method="POST" style="margin-top: 1rem;" onsubmit="confirmDelete(event, this)">
+                    <input type="hidden" name="OrderId" value="{{this.Order_id}}">
+                    <button type="submit" style="background: #fee2e2; color: #991b1b; border: none; padding: 0.8rem 1.5rem; border-radius: 15px; font-weight: 700; cursor: pointer; transition: var(--transition); width: 100%; font-size: 0.8rem;">
+                        Delete Order
+                    </button>
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if objectArray}}
+    <div id="details-section" style="margin-top: 6rem; background: var(--accent-dark); color: white; padding: 5rem; border-radius: 60px;">
+        <h3 style="font-size: 3rem; font-weight: 900; margin-bottom: 3rem; letter-spacing: -1px;">Items in Order #{{objectArray1.[0].Order_id}}</h3>
+        <div style="display: grid; gap: 1.5rem;">
+            {{#each objectArray}}
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem;">
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 20px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                        <img src="/{{this.Firstimg}}" style="width: 100%; transform: rotate(-10deg);">
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.2rem; font-weight: 800;">{{this.Pname}}</h4>
+                        <p style="opacity: 0.5;">Size: {{this.size}} | Qty: {{this.quantity}}</p>
+                    </div>
+                </div>
+                <p style="font-size: 1.5rem; font-weight: 900;">${{this.PQ}}</p>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</section>
+
+<script>
+    function showNumber(number, name) {
+        const modal = document.createElement('div');
+        modal.id = 'modal-container';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px);';
+        modal.innerHTML = `
+            <div style="background:white; padding:4rem; border-radius:50px; text-align:center; max-width:400px; width:90%; box-shadow: 0 50px 100px rgba(0,0,0,0.5);">
+                <p style="font-weight:800; opacity:0.4; margin-bottom:1rem; letter-spacing:1px;">CONTACT FOR ${name.toUpperCase()}</p>
+                <h2 style="font-size:2.5rem; font-weight:900; margin-bottom:2rem; letter-spacing:-1px; color:var(--accent-dark);">${number}</h2>
+                <div style="display:grid; gap:1rem;">
+                    <a href="tel:${number}" style="background:var(--accent); color:var(--accent-dark); padding:1.2rem; border-radius:20px; text-decoration:none; font-weight:900; font-size:1.1rem;">Call Customer</a>
+                    <button onclick="document.getElementById('modal-container').remove()" style="background:var(--bg-beige); color:var(--text-primary); border:none; padding:1.2rem; border-radius:20px; font-weight:800; cursor:pointer; font-size:1rem;">Close</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    function handleStatusChange(select, orderId) {
+        if (select.value === 'Cancelled') {
+            showConfirmModal('Do you really want to cancel this order?', () => {
+                select.form.submit();
+            }, () => {
+                select.value = 'Pending'; // Revert if cancelled
+            }, '😞', '😊');
+        } else {
+            select.form.submit();
+        }
+    }
+
+    function confirmDelete(event, form) {
+        event.preventDefault();
+        showConfirmModal('Are you sure you want to delete this order permanently?', () => {
+            form.submit();
+        }, () => {
+            // Do nothing on cancel
+        }, '😞', '😊');
+    }
+
+    function showConfirmModal(message, onYes, onNo) {
+        const modal = document.createElement('div');
+        modal.id = 'confirm-modal';
+        modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(24, 24, 27, 0.6); z-index:10001; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); opacity:0; transition:0.4s;';
+        
+        modal.innerHTML = `
+            <div class="uiverse-card" style="position: relative; display: flex; height: 20em; width: 30em; flex-direction: column; align-items: center; justify-content: start; overflow: hidden; border-radius: 3em; bg: #18181b; background: #18181b; padding: 3em 2em; box-shadow: 0 40px 100px rgba(0,0,0,0.5); border: 2px solid #bcff2f; transform: scale(0.8); transition: 0.5s cubic-bezier(0.17, 0.67, 0.16, 0.99);">
+                <span style="max-width: 25ch; text-align: center; font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 900; color: #bcff2f; line-height: 1.2; margin-bottom: 2rem;">
+                    ${message}
+                </span>
+                
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 10rem; display: flex; justify-content: center; gap: 8rem; align-items: flex-end; padding-bottom: 2rem;">
+                    <!-- YES OPTION -->
+                    <label class="confirm-option" style="cursor: pointer; position: relative; width: 100px; height: 150px;">
+                        <input type="checkbox" id="modal-yes" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="43" height="90" fill="none" viewBox="0 0 43 90" style="width: 100%; height: 100%; transform: rotate(45deg); transition: 0.3s; transform-origin: bottom;">
+                            <path fill="#bcff2f" d="M24.87 4.21a3.52 3.52 0 0 0-7.04 0v80.96a3.52 3.52 0 1 0 7.04 0V4.21Z"></path>
+                            <path fill="#000" d="M21.35 44.69c11.427 0 20.69-8.117 20.69-18.13 0-10.013-9.263-18.13-20.69-18.13C9.923 8.43.66 16.547.66 26.56c0 10.013 9.263 18.13 20.69 18.13Z"></path>
+                            <path fill="#22c55e" d="M21.35 40.6c11.427 0 20.69-8.117 20.69-18.13 0-10.013-9.263-18.13-20.69-18.13C9.923 4.34.66 12.457.66 22.47c0 10.013 9.263 18.13 20.69 18.13Z"></path>
+                            <text x="12" y="28" fill="#18181b" style="font-weight:900; font-size:10px; font-family:sans-serif;">YES</text>
+                        </svg>
+                    </label>
+
+                    <!-- NO OPTION -->
+                    <label class="confirm-option" style="cursor: pointer; position: relative; width: 100px; height: 150px;">
+                        <input type="checkbox" id="modal-no" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="89" fill="none" viewBox="0 0 42 89" style="width: 100%; height: 100%; transform: rotate(-45deg); transition: 0.3s; transform-origin: bottom;">
+                            <path fill="#ef4444" d="M21.481.49h-.48a3.35 3.35 0 0 0-3.35 3.35V85.1c0 1.85 1.5 3.35 3.35 3.35h.48c1.85 0 3.35-1.5 3.35-3.35V3.84c0-1.85-1.5-3.35-3.35-3.35Z"></path>
+                            <path fill="#FDD259" d="M18.801 45.03c10.118 0 18.32-8.202 18.32-18.32S28.92 8.39 18.801 8.39C8.684 8.39.481 16.592.481 26.71s8.203 18.32 18.32 18.32Z"></path>
+                            <text x="10" y="30" fill="#18181b" style="font-weight:900; font-size:10px; font-family:sans-serif;">NO</text>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        const card = modal.querySelector('.uiverse-card');
+        const yesInput = document.getElementById('modal-yes');
+        const noInput = document.getElementById('modal-no');
+        const yesSvg = yesInput.nextElementSibling;
+        const noSvg = noInput.nextElementSibling;
+
+        // Hover effects
+        yesInput.parentElement.onmouseenter = () => { if(!yesInput.checked) yesSvg.style.transform = 'rotate(35deg)'; };
+        yesInput.parentElement.onmouseleave = () => { if(!yesInput.checked) yesSvg.style.transform = 'rotate(45deg)'; };
+        noInput.parentElement.onmouseenter = () => { if(!noInput.checked) noSvg.style.transform = 'rotate(-35deg)'; };
+        noInput.parentElement.onmouseleave = () => { if(!noInput.checked) noSvg.style.transform = 'rotate(-45deg)'; };
+
+        // Animate in
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        }, 10);
+
+        yesInput.onchange = () => {
+            if (yesInput.checked) {
+                yesSvg.style.transform = 'rotate(0deg)';
+                setTimeout(() => {
+                    modal.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => { modal.remove(); onYes(); }, 400);
+                }, 300);
+            }
+        };
+
+        noInput.onchange = () => {
+            if (noInput.checked) {
+                noSvg.style.transform = 'rotate(0deg)';
+                setTimeout(() => {
+                    modal.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => { modal.remove(); onNo(); }, 400);
+                }, 300);
+            }
+        };
+    }
+</script>
+
+<style>
+    @keyframes slide-down {
+        0% { transform: translateY(-20px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    @keyframes pop-in {
+        0% { transform: scale(0.9); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    input:focus {
+        border-color: var(--accent) !important;
+        background: white !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+</style>

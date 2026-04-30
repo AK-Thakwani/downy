@@ -1,0 +1,106 @@
+<section class="container" style="margin-top: 12rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 5rem; align-items: center;">
+        <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+            <!-- Glow background -->
+            <div style="position: absolute; width: 80%; height: 80%; background: radial-gradient(circle, rgba(188, 255, 47, 0.2) 0%, transparent 70%); z-index: -1; border-radius: 50%;"></div>
+            
+            <img src="/{{First_img}}" alt="{{ShoeName}}" class="single-product-img" style="width: 100%; max-width: 600px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)); transform: rotate(-15deg); transition: var(--transition);">
+            
+            <!-- Side thumbnails floating -->
+            <div style="position: absolute; right: -5%; top: 50%; transform: translateY(-50%); display: grid; gap: 1rem;">
+                <div class="thumb-box"><img src="/{{Sec_img}}" style="width: 60px;"></div>
+                <div class="thumb-box"><img src="/{{Third_img}}" style="width: 60px;"></div>
+            </div>
+        </div>
+        
+        <div class="card" style="border-radius: 60px; padding: 4rem; background: white; box-shadow: 0 40px 100px rgba(0,0,0,0.05);">
+            <p style="color: #22c55e; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Limited Edition</p>
+            <h1 style="font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; letter-spacing: -2px; margin: 1rem 0; line-height: 1;">{{ShoeName}}</h1>
+            <p style="font-size: 2rem; font-weight: 800; color: var(--accent-dark); margin-bottom: 2rem;">${{amount}}</p>
+            
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 3rem; font-size: 1.1rem;">
+                Engineered for those who demand excellence. Featuring our signature responsive cushioning and lightweight breathable mesh, Sneaker 1 provides the ultimate aerodynamic experience.
+            </p>
+
+            <form action="/add-to-cart" method="POST">
+                <input type="hidden" name="Pid" value="{{Pid}}">
+                
+                <div style="margin-bottom: 3rem;">
+                    <h4 style="margin-bottom: 1.5rem; font-weight: 800; opacity: 0.4;">CHOOSE SIZE</h4>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <label>
+                            <input type="radio" name="radio" value="40" checked required style="display: none;" class="size-radio">
+                            <span class="size-btn">40</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="radio" value="41" style="display: none;" class="size-radio">
+                            <span class="size-btn">41</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="radio" value="42" style="display: none;" class="size-radio">
+                            <span class="size-btn">42</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="radio" value="43" style="display: none;" class="size-radio">
+                            <span class="size-btn">43</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 3rem;">
+                    <div style="background: var(--bg-beige); padding: 0.8rem 1.5rem; border-radius: 20px; display: flex; align-items: center; gap: 1.5rem;">
+                        <span style="font-weight: 800; opacity: 0.3; font-size: 0.8rem;">QTY</span>
+                        <input type="number" name="Quantity" value="1" min="1" max="10" style="border: none; background: transparent; font-weight: 800; font-size: 1.2rem; width: 40px; outline: none; color: var(--accent-dark);">
+                    </div>
+                </div>
+
+                <button type="submit" class="cart-btn" style="width: 100%; padding: 1.5rem; font-size: 1.2rem; justify-content: center; border-radius: 30px;">
+                    Add to Cart - ${{amount}}
+                </button>
+            </form>
+            
+            {{#if Not_Available}}
+            <p style="color: #ef4444; margin-top: 2rem; font-weight: 700; text-align: center; background: #fee2e2; padding: 1rem; border-radius: 20px;">
+                <i class="fa fa-info-circle"></i> {{Not_Available}}
+            </p>
+            {{/if}}
+        </div>
+    </div>
+</section>
+
+<style>
+    .single-product-img:hover {
+        transform: rotate(-10deg) scale(1.05);
+    }
+    .thumb-box {
+        background: white;
+        padding: 1rem;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: var(--transition);
+        border: 1px solid transparent;
+    }
+    .thumb-box:hover {
+        transform: scale(1.1);
+        border-color: var(--accent);
+    }
+    .size-btn {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background: var(--bg-beige);
+        border-radius: 20px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .size-radio:checked + .size-btn {
+        background: var(--accent-dark);
+        color: var(--accent);
+        transform: scale(1.1);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+</style>

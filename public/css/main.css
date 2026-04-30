@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
+
+:root {
+    --bg-beige: #fdfcf0; /* Warm Beige */
+    --bg-white: #ffffff;
+    --accent: #bcff2f; /* Neon Green */
+    --accent-dark: #18181b; /* Deep Black/Zinc */
+    --text-primary: #18181b;
+    --text-secondary: #52525b;
+    --card-bg: #ffffff;
+    --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    --shadow: 0 20px 40px rgba(0,0,0,0.05);
+    --shadow-accent: 0 10px 20px rgba(188, 255, 47, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-beige);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-beige); }
+::-webkit-scrollbar-thumb { background: var(--accent-dark); border-radius: 5px; border: 3px solid var(--bg-beige); }
+
+/* Navigation - Floating Island */
+nav {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1100px;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    color: var(--accent-dark);
+    text-decoration: none;
+}
+
+.logo span { color: #22c55e; } /* Slightly darker green for logo contrast */
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    opacity: 0.7;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    color: #22c55e;
+}
+
+.cart-btn {
+    background: var(--accent);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    color: var(--accent-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-accent);
+    transition: var(--transition);
+}
+
+.cart-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--accent-dark);
+    color: var(--accent);
+}
+
+/* Hero Section - The "Crazy" Part */
+.hero {
+    min-height: 100vh;
+    padding: 10rem 5% 5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(188, 255, 47, 0.15) 0%, rgba(253, 252, 240, 0) 70%);
+    z-index: -1;
+}
+
+.hero-content {
+    flex: 1;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -4px;
+    margin-bottom: 2rem;
+}
+
+.hero-content h1 span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent-dark);
+}
+
+.hero-image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-shoe {
+    width: 120%;
+    max-width: 800px;
+    transform: rotate(-15deg);
+    filter: drop-shadow(0 50px 100px rgba(0,0,0,0.15));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-12deg) translateY(-30px); }
+}
+
+.badge-float {
+    position: absolute;
+    background: var(--accent-dark);
+    color: var(--accent);
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-weight: 800;
+    top: 10%;
+    right: 0;
+    transform: rotate(10deg);
+}
+
+/* Category Section */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 5rem 5%;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem;
+}
+
+/* Interactive Cards */
+.card {
+    background: var(--card-bg);
+    border-radius: 40px;
+    padding: 2.5rem;
+    position: relative;
+    transition: var(--transition);
+    border: 1px solid rgba(0,0,0,0.03);
+    box-shadow: var(--shadow);
+}
+
+.card:hover {
+    transform: translateY(-20px) rotateX(5deg);
+    box-shadow: 0 50px 100px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
+}
+
+.card:hover img {
+    transform: scale(1.15) rotate(-10deg) translateY(-10px);
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15));
+}
+
+.card .category {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #22c55e;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.card .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.card .price {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.add-btn {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-dark);
+    border: none;
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.add-btn:hover {
+    background: var(--accent);
+    color: var(--accent-dark);
+    transform: rotate(90deg);
+}
+
+/* Layout for View Pages */
+.view-container {
+    margin-top: 12rem;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* Tablet & Smaller Desktops (1024px and below) */
+@media (max-width: 1024px) {
+    .hero { 
+        flex-direction: column; 
+        text-align: center; 
+        padding-top: 12rem;
+        min-height: auto;
+    }
+    
+    .hero-content h1 { font-size: 5rem; }
+    
+    .hero-image {
+        width: 100%;
+        margin-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .main-shoe { width: 100%; }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* Mobile Devices (768px and below) */
+@media (max-width: 768px) {
+    nav {
+        padding: 0.8rem 1.5rem;
+        width: 95%;
+        top: 1rem;
+    }
+
+    .nav-links {
+        display: none; /* Hide for now, can be toggled via JS if needed */
+    }
+
+    .hero-content h1 { font-size: 3.5rem; letter-spacing: -2px; }
+    
+    .hero-content p { font-size: 1rem; }
+
+    .container {
+        padding: 3rem 5%;
+    }
+
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr; /* Stack cards on mobile */
+        gap: 2rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+        border-radius: 30px;
+    }
+
+    .card img {
+        height: 200px;
+    }
+
+    /* Checkout & Payment Forms */
+    .view-container {
+        margin-top: 8rem;
+        padding: 0 5%;
+    }
+
+    form {
+        padding: 1.5rem !important;
+        border-radius: 30px !important;
+    }
+
+    .form-group input, .form-group select {
+        padding: 1rem !important;
+    }
+
+    .cart-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 1.2rem;
+    }
+
+    /* Thank You Page */
+    #thank-you-card {
+        padding: 3rem 1.5rem !important;
+        border-radius: 40px !important;
+    }
+
+    #thank-you-card h1 {
+        font-size: 2.5rem !important;
+    }
+}
+
+/* Small Phones (480px and below) */
+@media (max-width: 480px) {
+    .hero-content h1 { font-size: 2.8rem; }
+    
+    .badge-float {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .logo { font-size: 1.2rem; }
+}

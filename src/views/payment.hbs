@@ -1,0 +1,144 @@
+<section class="container" style="margin-top: 12rem;">
+    <div class="section-header">
+        <div>
+            <p style="color: #22c55e; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">SECURE CHECKOUT</p>
+            <h2 style="font-size: 4rem; font-weight: 900; letter-spacing: -2px;">Payment Method</h2>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 4rem;">
+        <a href="/checkout" style="margin-bottom: 2rem; color: var(--text-primary); font-weight: 800; text-decoration: none; opacity: 0.5; transition: var(--transition);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">
+            <i class="fa fa-arrow-left"></i> Back to Cart
+        </a>
+        <div class="card" style="width: 100%; max-width: 600px; padding: 4rem; border-radius: 60px; background: white;">
+            {{#if Errorr}}
+            <div style="background: #fee2e2; color: #ef4444; padding: 1rem; border-radius: 20px; margin-bottom: 2rem; font-weight: 600; text-align: center;">
+                <i class="fa fa-exclamation-circle"></i> {{Errorr}}
+            </div>
+            {{/if}}
+
+            <form action="/payment" method="POST">
+                <div style="margin-bottom: 3rem;">
+                    <p style="font-weight: 800; opacity: 0.4; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">Select Payment Way</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <label class="pay-option">
+                            <input type="radio" name="Payment" value="CARD" checked class="pay-radio">
+                            <div class="pay-card">
+                                <i class="fa fa-credit-card"></i>
+                                <span>Card</span>
+                            </div>
+                        </label>
+                        <label class="pay-option">
+                            <input type="radio" name="Payment" value="COD" class="pay-radio">
+                            <div class="pay-card">
+                                <i class="fa fa-truck"></i>
+                                <span>Cash</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="card-details" style="display: grid; gap: 1rem;">
+                    <div style="text-align: left;">
+                        <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">CARD HOLDER</label>
+                        <input type="text" name="name" placeholder="John Doe" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
+                    </div>
+                    <div style="text-align: left;">
+                        <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">CARD NUMBER</label>
+                        <input type="text" name="number" placeholder="0000 0000 0000 0000" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="text-align: left;">
+                            <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">EXPIRY</label>
+                            <input type="text" name="expiration" placeholder="MM/YY" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
+                        </div>
+                        <div style="text-align: left;">
+                            <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">CVV</label>
+                            <input type="text" name="security" placeholder="000" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="cart-btn" style="width: 100%; padding: 1.5rem; font-size: 1.2rem; justify-content: center; margin-top: 3rem;">
+                    Complete Order <i class="fa fa-lock" style="margin-left: 1rem;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div id="processing-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
+    <div class="loader"></div>
+    <h2 style="margin-top: 2rem; font-weight: 900; letter-spacing: -1px;">Processing Secure Payment...</h2>
+    <p style="opacity: 0.5;">Please do not refresh the page.</p>
+</div>
+
+<style>
+    .pay-option { cursor: pointer; }
+    .pay-radio { display: none; }
+    .pay-card {
+        background: var(--bg-beige);
+        padding: 2rem;
+        border-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 800;
+        transition: var(--transition);
+        border: 2px solid transparent;
+    }
+    .pay-card i { font-size: 2rem; opacity: 0.3; }
+    .pay-radio:checked + .pay-card {
+        background: white;
+        border-color: var(--accent);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        transform: translateY(-5px);
+    }
+    .pay-radio:checked + .pay-card i { opacity: 1; color: #22c55e; }
+    
+    input:focus {
+        border-color: var(--accent) !important;
+        background: white !important;
+    }
+
+    .loader {
+        border: 10px solid var(--bg-beige);
+        border-top: 10px solid var(--accent);
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<script>
+    const radios = document.querySelectorAll('.pay-radio');
+    const cardDetails = document.getElementById('card-details');
+    const form = document.querySelector('form');
+    const overlay = document.getElementById('processing-overlay');
+    
+    radios.forEach(r => {
+        r.addEventListener('change', (e) => {
+            if(e.target.value === 'COD') {
+                cardDetails.style.opacity = '0.3';
+                cardDetails.style.pointerEvents = 'none';
+            } else {
+                cardDetails.style.opacity = '1';
+                cardDetails.style.pointerEvents = 'all';
+            }
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        overlay.style.display = 'flex';
+        setTimeout(() => {
+            form.submit();
+        }, 2000);
+    });
+</script>
