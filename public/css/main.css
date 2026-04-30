@@ -318,9 +318,36 @@ nav {
         top: 1rem;
     }
 
-    .nav-links {
-        display: none; /* Hide for now, can be toggled via JS if needed */
+    .mobile-menu-btn {
+        display: block !important;
     }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 6rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        width: 95%;
+        background: white;
+        padding: 2rem;
+        border-radius: 30px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+        z-index: 999;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .nav-links.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateX(-50%) translateY(0);
+    }
+
 
     .hero-content h1 { font-size: 3.5rem; letter-spacing: -2px; }
     
@@ -355,30 +382,46 @@ nav {
     }
 
     form {
-        padding: 1.5rem !important;
+        padding: 2rem 1.5rem !important;
         border-radius: 30px !important;
+        box-shadow: none !important;
     }
 
-    .form-group input, .form-group select {
-        padding: 1rem !important;
+    .card {
+        padding: 2rem 1.5rem !important;
+        border-radius: 30px !important;
+        margin-bottom: 2rem;
+    }
+
+    .form-group input, .form-group select, input, textarea {
+        padding: 1.2rem !important;
+        font-size: 1rem !important;
     }
 
     .cart-btn {
         width: 100%;
         justify-content: center;
-        padding: 1.2rem;
+        padding: 1.5rem !important;
+        font-size: 1.1rem !important;
     }
 
     /* Thank You Page */
     #thank-you-card {
-        padding: 3rem 1.5rem !important;
+        padding: 4rem 1.5rem !important;
         border-radius: 40px !important;
+        margin-top: 2rem;
     }
 
     #thank-you-card h1 {
-        font-size: 2.5rem !important;
+        font-size: 2.8rem !important;
+        line-height: 1 !important;
+    }
+
+    #thank-you-card p {
+        font-size: 1rem !important;
     }
 }
+
 
 /* Small Phones (480px and below) */
 @media (max-width: 480px) {
@@ -390,4 +433,14 @@ nav {
     }
 
     .logo { font-size: 1.2rem; }
+    
+    nav {
+        padding: 0.6rem 1rem !important;
+    }
+
+    .cart-btn {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.8rem !important;
+    }
 }
+

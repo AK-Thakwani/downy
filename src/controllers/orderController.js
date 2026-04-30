@@ -34,10 +34,15 @@ exports.processPayment = async (req, res) => {
   const { Payment: method, name: cardName, number: cardNo, security: cvv, expiration: expDate } = req.body;
   const customerInfo = req.session.tempOrder;
 
+  if (!customerInfo) {
+    console.error("Payment Error: No customer info in session (tempOrder missing)");
+    return res.status(400).send("Session expired or invalid checkout state. Please go back to cart and try again.");
+  }
+
   try {
     const cartItems = await Cart.getCartItems();
     if (cartItems.length === 0) {
-      return res.render('payment', { Errr: "Your Cart is Empty" });
+      return res.render('payment', { Errorr: "Your Cart is Empty" });
     }
 
     if (method === "CARD") {
@@ -45,6 +50,7 @@ exports.processPayment = async (req, res) => {
       if (cvv.length !== 3) return res.render('payment', { Errorr: "Invalid Card CVV" });
     }
 
+    console.log(`Processing ${method} payment for ${customerInfo.name}...`);
     const orderId = await Order.getNextOrderId();
     const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const currentDate = new Date().toLocaleDateString('en-GB');
@@ -87,24 +93,34 @@ exports.processPayment = async (req, res) => {
     }
     await Cart.clearCart();
 
+    // Create Order Details for email/view
+    const orderDetails = cartItems.map(item => ({
+      Pname: item.Pname,
+      size: item.size,
+      quantity: item.quantity,
+      price: item.price,
+      PQ: item.price * item.quantity
+    }));
+
     // Send Confirmation Email (wrapped in try/catch to prevent blocking the Thank You page)
     try {
       await emailService.sendOrderConfirmation(customerInfo.email, orderId, customerInfo.name, orderDetails);
     } catch (emailErr) {
       console.error("Email Confirmation Failed:", emailErr);
-      // We continue anyway so the customer sees the success page
     }
 
     // Clean up temp order from session
     delete req.session.tempOrder;
 
+    console.log(`Order ${orderId} placed successfully. Rendering ThankuPage.`);
     res.render('ThankuPage', { objectArray: orderDetails, orderId });
 
   } catch (err) {
     console.error("Payment Processing Error:", err);
-    res.status(500).render('error', { message: 'Something went wrong during payment. Please contact support.' });
+    res.status(500).send('Something went wrong during payment. Please contact support. Error: ' + err.message);
   }
 };
+
 
 exports.getTrackPage = async (req, res) => {
   const { orderId } = req.query;

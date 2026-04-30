@@ -20,7 +20,7 @@
             <form action="/payment" method="POST">
                 <div style="margin-bottom: 3rem;">
                     <p style="font-weight: 800; opacity: 0.4; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">Select Payment Way</p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="pay-options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <label class="pay-option">
                             <input type="radio" name="Payment" value="CARD" checked class="pay-radio">
                             <div class="pay-card">
@@ -47,7 +47,7 @@
                         <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">CARD NUMBER</label>
                         <input type="text" name="number" placeholder="0000 0000 0000 0000" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="expiry-cvv-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <div style="text-align: left;">
                             <label style="font-weight: 700; font-size: 0.8rem; margin-left: 1rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;">EXPIRY</label>
                             <input type="text" name="expiration" placeholder="MM/YY" style="width: 100%; padding: 1.2rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 600; outline: none; transition: var(--transition);">
@@ -58,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <button type="submit" class="cart-btn" style="width: 100%; padding: 1.5rem; font-size: 1.2rem; justify-content: center; margin-top: 3rem;">
                     Complete Order <i class="fa fa-lock" style="margin-left: 1rem;"></i>
@@ -114,7 +115,14 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+    @media (max-width: 600px) {
+        .card { padding: 2.5rem 1.5rem !important; }
+        .pay-options-grid { grid-template-columns: 1fr !important; }
+        .expiry-cvv-grid { grid-template-columns: 1fr !important; }
+        .section-header h2 { font-size: 2.5rem !important; }
+    }
 </style>
+
 
 <script>
     const radios = document.querySelectorAll('.pay-radio');

@@ -3,7 +3,9 @@ node_modules/
 .env.local
 .env.*
 scratch/
-public/images/*
+# Allow initial project images, ignore future uploads if needed
+# public/images/* 
+# We remove the ignore for now to get your live site looking good!
 !public/images/.gitkeep
 dist/
 build/
