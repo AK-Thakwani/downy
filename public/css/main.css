@@ -103,6 +103,11 @@ nav {
     color: var(--accent);
 }
 
+.mobile-menu-btn {
+    display: none;
+}
+
+
 /* Hero Section - The "Crazy" Part */
 .hero {
     min-height: 100vh;
@@ -367,8 +372,9 @@ nav {
     }
 
     .card {
-        padding: 1.5rem;
-        border-radius: 30px;
+        padding: 2rem 1.5rem !important;
+        border-radius: 30px !important;
+        margin-bottom: 2rem;
     }
 
     .card img {
@@ -385,12 +391,6 @@ nav {
         padding: 2rem 1.5rem !important;
         border-radius: 30px !important;
         box-shadow: none !important;
-    }
-
-    .card {
-        padding: 2rem 1.5rem !important;
-        border-radius: 30px !important;
-        margin-bottom: 2rem;
     }
 
     .form-group input, .form-group select, input, textarea {
@@ -421,6 +421,7 @@ nav {
         font-size: 1rem !important;
     }
 }
+
 
 
 /* Small Phones (480px and below) */

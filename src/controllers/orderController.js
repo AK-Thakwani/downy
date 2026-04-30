@@ -25,7 +25,7 @@ exports.processCheckout = async (req, res) => {
       res.render('checkout', { Cartt: cartItems, Total_price: totalPrice, Empty: "Wrong Input Details (Check Mobile/ZIP length)" });
     }
   } catch (err) {
-    console.error(err);
+    console.error("Checkout Page Error:", err);
     res.status(500).send('Server Error');
   }
 };
@@ -42,12 +42,12 @@ exports.processPayment = async (req, res) => {
   try {
     const cartItems = await Cart.getCartItems();
     if (cartItems.length === 0) {
-      return res.render('payment', { Errorr: "Your Cart is Empty" });
+      return res.render('payment', { error: "Your Cart is Empty" });
     }
 
     if (method === "CARD") {
-      if (cardNo.length !== 16) return res.render('payment', { Errorr: "Invalid Card Number" });
-      if (cvv.length !== 3) return res.render('payment', { Errorr: "Invalid Card CVV" });
+      if (cardNo.length !== 16) return res.render('payment', { error: "Invalid Card Number" });
+      if (cvv.length !== 3) return res.render('payment', { error: "Invalid Card CVV" });
     }
 
     console.log(`Processing ${method} payment for ${customerInfo.name}...`);
@@ -117,9 +117,10 @@ exports.processPayment = async (req, res) => {
 
   } catch (err) {
     console.error("Payment Processing Error:", err);
-    res.status(500).send('Something went wrong during payment. Please contact support. Error: ' + err.message);
+    res.status(500).send('Something went wrong during payment. Please contact support.');
   }
 };
+
 
 
 exports.getTrackPage = async (req, res) => {
@@ -142,7 +143,7 @@ exports.trackOrder = async (req, res) => {
   const { orderId } = req.body;
   try {
     const order = await Order.getOrderById(orderId);
-    if (!order) return res.render('track', { Error: "Order ID not found." });
+    if (!order) return res.render('track', { error: "Order ID not found." });
 
     const details = await Order.getOrderDetails(orderId);
     res.render('track', { order, details });
