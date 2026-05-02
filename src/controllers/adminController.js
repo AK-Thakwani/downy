@@ -170,3 +170,34 @@ exports.getCheckStockPage = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+exports.getUpdateImagesPage = async (req, res) => {
+  try {
+    const products = await Product.getAll();
+    res.render('updateimages', { products, MSGGG: '' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateProductImages = async (req, res) => {
+  const { productid } = req.body;
+  try {
+    const img1 = req.files && req.files.uploadimage1 ? req.files.uploadimage1[0].path : null;
+    const img2 = req.files && req.files.uploadimage2 ? req.files.uploadimage2[0].path : null;
+    const img3 = req.files && req.files.uploadimage3 ? req.files.uploadimage3[0].path : null;
+
+    if (!img1 || !img2 || !img3) {
+      const products = await Product.getAll();
+      return res.render('updateimages', { products, MSGGG: 'Please upload all three images.', isError: true });
+    }
+
+    await Product.updateImages(productid, img1, img2, img3);
+    const products = await Product.getAll();
+    res.render('updateimages', { products, MSGGG: `Images updated successfully for Product ID: ${productid}` });
+  } catch (err) {
+    console.error(err);
+    const products = await Product.getAll();
+    res.render('updateimages', { products, MSGGG: 'Failed to update images: ' + err.message, isError: true });
+  }
+};

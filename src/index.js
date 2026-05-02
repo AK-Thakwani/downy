@@ -36,6 +36,7 @@ app.engine('hbs', engine({
   partialsDir: path.join(__dirname, 'views/partials'),
   helpers: {
     eq: (a, b) => a === b,
+    startsWith: (str, prefix) => str && str.startsWith(prefix),
     getImageUrl: (url) => {
       if (!url) return '';
       if (url.startsWith('http')) return url;

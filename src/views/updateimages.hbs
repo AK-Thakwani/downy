@@ -1,0 +1,107 @@
+<section class="container" style="margin-top: 12rem;">
+    <div class="section-header">
+        <div>
+            <p style="color: #22c55e; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">IMAGE MANAGER</p>
+            <h2 style="font-size: 4rem; font-weight: 900; letter-spacing: -2px;">Fix Product Images</h2>
+        </div>
+        <a href="/adminpage" class="cart-btn" style="background: white; color: var(--accent-dark); border: 2px solid var(--accent-dark); padding: 0.8rem 1.5rem; font-size: 0.8rem;">Back to Dashboard</a>
+    </div>
+
+    {{#if MSGGG}}
+    <div style="background: {{#if isError}}#ef4444{{else}}#22c55e{{/if}}; color: white; padding: 1rem 2rem; border-radius: 20px; margin-top: 2rem; font-weight: 700; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+        <i class="fa fa-{{#if isError}}times{{else}}check{{/if}}-circle"></i> {{MSGGG}}
+    </div>
+    {{/if}}
+
+    <!-- Products Table -->
+    <div class="card" style="margin-top: 4rem; padding: 3rem; border-radius: 60px; background: white; overflow: hidden;">
+        <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; opacity: 0.5;">ALL PRODUCTS IN DATABASE</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0 1rem;">
+                <thead>
+                    <tr style="opacity: 0.4;">
+                        <th style="text-align:left; padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px;">PID</th>
+                        <th style="text-align:left; padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px;">NAME</th>
+                        <th style="text-align:left; padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px;">CURRENT IMAGE 1</th>
+                        <th style="text-align:left; padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 1px;">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr style="background: var(--bg-beige); border-radius: 20px;">
+                        <td style="padding: 1rem 1.5rem; font-weight: 800; border-radius: 20px 0 0 20px;">{{this.Pid}}</td>
+                        <td style="padding: 1rem 1.5rem; font-weight: 700;">{{this.Pname}}</td>
+                        <td style="padding: 1rem 1.5rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            {{#if this.Firstimg}}
+                                {{#if (startsWith this.Firstimg "http")}}
+                                    <span style="color: #22c55e; font-weight: 700; font-size: 0.8rem;"><i class="fa fa-check-circle"></i> Cloudinary ✓</span>
+                                {{else}}
+                                    <span style="color: #ef4444; font-weight: 700; font-size: 0.8rem;"><i class="fa fa-times-circle"></i> Local Path (BROKEN)</span>
+                                {{/if}}
+                            {{else}}
+                                <span style="color: #f59e0b; font-weight: 700; font-size: 0.8rem;"><i class="fa fa-exclamation-triangle"></i> No Image</span>
+                            {{/if}}
+                        </td>
+                        <td style="padding: 1rem 1.5rem; border-radius: 0 20px 20px 0;">
+                            <button onclick="openModal('{{this.Pid}}', '{{this.Pname}}')" class="cart-btn" style="padding: 0.6rem 1.5rem; font-size: 0.8rem; border-radius: 15px;">
+                                <i class="fa fa-image"></i> Update Images
+                            </button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Modal for Image Update -->
+<div id="imageModal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 40px; padding: 4rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <div>
+                <p style="color: #22c55e; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Updating Images For</p>
+                <h3 id="modalProductName" style="font-size: 2rem; font-weight: 900;"></h3>
+            </div>
+            <button onclick="closeModal()" style="background: var(--bg-beige); border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; font-weight: 800;">✕</button>
+        </div>
+
+        <form id="updateImageForm" action="/update-product-images" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="modalPid" name="productid">
+            
+            <div style="display: grid; gap: 1.5rem;">
+                <div>
+                    <label style="font-weight: 800; font-size: 0.7rem; opacity: 0.5; display: block; margin-bottom: 0.5rem; letter-spacing: 1px;">MAIN IMAGE (IMG 1) *</label>
+                    <input type="file" name="uploadimage1" accept="image/*" required style="width: 100%; padding: 1rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 700; outline: none;">
+                </div>
+                <div>
+                    <label style="font-weight: 800; font-size: 0.7rem; opacity: 0.5; display: block; margin-bottom: 0.5rem; letter-spacing: 1px;">SIDE IMAGE (IMG 2) *</label>
+                    <input type="file" name="uploadimage2" accept="image/*" required style="width: 100%; padding: 1rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 700; outline: none;">
+                </div>
+                <div>
+                    <label style="font-weight: 800; font-size: 0.7rem; opacity: 0.5; display: block; margin-bottom: 0.5rem; letter-spacing: 1px;">SIDE IMAGE (IMG 3) *</label>
+                    <input type="file" name="uploadimage3" accept="image/*" required style="width: 100%; padding: 1rem; background: var(--bg-beige); border: 2px solid transparent; border-radius: 20px; font-weight: 700; outline: none;">
+                </div>
+
+                <button type="submit" class="cart-btn" style="width: 100%; padding: 1.5rem; font-size: 1rem; justify-content: center; margin-top: 1rem;">
+                    Upload to Cloudinary &amp; Save <i class="fa fa-cloud-upload-alt" style="margin-left: 0.5rem;"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(pid, pname) {
+        document.getElementById('modalPid').value = pid;
+        document.getElementById('modalProductName').textContent = pname;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+    // Close on backdrop click
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+</script>

@@ -22,5 +22,11 @@ router.post('/update-status', auth.isAdmin, adminController.updateOrderStatus);
 router.post('/delete-order', auth.isAdmin, adminController.deleteOrder);
 router.post('/prune-cancelled', auth.isAdmin, adminController.pruneCancelledOrders);
 router.get('/checkstock', auth.isAdmin, adminController.getCheckStockPage);
+router.get('/update-images', auth.isAdmin, adminController.getUpdateImagesPage);
+router.post('/update-product-images', auth.isAdmin, upload.fields([
+  { name: 'uploadimage1', maxCount: 1 },
+  { name: 'uploadimage2', maxCount: 1 },
+  { name: 'uploadimage3', maxCount: 1 }
+]), adminController.updateProductImages);
 
 module.exports = router;

@@ -56,6 +56,11 @@ class Product {
     const values = sizes.map(s => [pid, s.size, s.quantity]);
     await db.query(sql, [values]);
   }
+
+  static async updateImages(pid, img1, img2, img3) {
+    const sql = "UPDATE Product SET Firstimg = ?, Secondimg = ?, Thirdimg = ? WHERE Pid = ?";
+    await db.query(sql, [img1, img2, img3, pid]);
+  }
 }
 
 module.exports = Product;
