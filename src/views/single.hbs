@@ -4,12 +4,12 @@
             <!-- Glow background -->
             <div style="position: absolute; width: 80%; height: 80%; background: radial-gradient(circle, rgba(188, 255, 47, 0.2) 0%, transparent 70%); z-index: -1; border-radius: 50%;"></div>
             
-            <img src="/{{First_img}}" alt="{{ShoeName}}" class="single-product-img" style="width: 100%; max-width: 600px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)); transform: rotate(-15deg); transition: var(--transition);">
+            <img src="{{getImageUrl First_img}}" alt="{{ShoeName}}" class="single-product-img" style="width: 100%; max-width: 600px; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)); transform: rotate(-15deg); transition: var(--transition);">
             
             <!-- Side thumbnails floating -->
             <div style="position: absolute; right: -5%; top: 50%; transform: translateY(-50%); display: grid; gap: 1rem;">
-                <div class="thumb-box"><img src="/{{Sec_img}}" style="width: 60px;"></div>
-                <div class="thumb-box"><img src="/{{Third_img}}" style="width: 60px;"></div>
+                <div class="thumb-box"><img src="{{getImageUrl Sec_img}}" style="width: 60px;"></div>
+                <div class="thumb-box"><img src="{{getImageUrl Third_img}}" style="width: 60px;"></div>
             </div>
         </div>
         

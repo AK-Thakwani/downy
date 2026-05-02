@@ -14,7 +14,7 @@
     {{/if}}
 
     <div class="card" style="margin-top: 4rem; padding: 5rem; border-radius: 60px; background: white;">
-        <form action="/insertproduct" method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+        <form action="/insertproduct" method="POST" enctype="multipart/form-data" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
             <!-- Left Side: Basic Info -->
             <div style="display: grid; gap: 2rem;">
                 <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; opacity: 0.3;">BASIC DETAILS</h3>
@@ -52,15 +52,15 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
                     <div style="text-align: left;">
                         <label class="form-label">IMG 1 (Main)</label>
-                        <input type="text" name="uploadimage1" placeholder="100.png" required class="form-input" style="font-size: 0.8rem;">
+                        <input type="file" name="uploadimage1" accept="image/*" required class="form-input" style="font-size: 0.8rem; padding: 1rem;">
                     </div>
                     <div style="text-align: left;">
                         <label class="form-label">IMG 2</label>
-                        <input type="text" name="uploadimage2" placeholder="101.png" required class="form-input" style="font-size: 0.8rem;">
+                        <input type="file" name="uploadimage2" accept="image/*" required class="form-input" style="font-size: 0.8rem; padding: 1rem;">
                     </div>
                     <div style="text-align: left;">
                         <label class="form-label">IMG 3</label>
-                        <input type="text" name="uploadimage3" placeholder="102.png" required class="form-input" style="font-size: 0.8rem;">
+                        <input type="file" name="uploadimage3" accept="image/*" required class="form-input" style="font-size: 0.8rem; padding: 1rem;">
                     </div>
                 </div>
 

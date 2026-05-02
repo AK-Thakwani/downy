@@ -40,7 +40,7 @@
                 {{#each details}}
                 <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 30px;">
                     <div style="display: flex; gap: 2rem; align-items: center;">
-                        <img src="/{{this.Firstimg}}" style="width: 60px; transform: rotate(-15deg);">
+                        <img src="{{getImageUrl this.Firstimg}}" style="width: 60px; transform: rotate(-15deg);">
                         <div>
                             <p style="font-weight: 800;">{{this.Pname}}</p>
                             <p style="font-size: 0.8rem; opacity: 0.5;">Size: {{this.size}} | Qty: {{this.quantity}}</p>

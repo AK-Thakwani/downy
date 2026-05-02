@@ -25,15 +25,20 @@ exports.getInsertProductPage = (req, res) => {
 };
 
 exports.insertProduct = async (req, res) => {
-  const { productid, productname, Category, uploadimage1, uploadimage2, uploadimage3, price, Quantity40, Quantity41, Quantity42, Quantity43 } = req.body;
+  const { productid, productname, Category, price, Quantity40, Quantity41, Quantity42, Quantity43 } = req.body;
   
   try {
     const existing = await Product.getById(productid);
     if (existing) return res.render('insertproduct', { MSGGG: "Product Id already used" });
 
-    const final_imag1 = `images/${uploadimage1}`;
-    const final_imag2 = `images/${uploadimage2}`;
-    const final_imag3 = `images/${uploadimage3}`;
+    // Extract Cloudinary URLs from req.files
+    const final_imag1 = req.files && req.files.uploadimage1 ? req.files.uploadimage1[0].path : '';
+    const final_imag2 = req.files && req.files.uploadimage2 ? req.files.uploadimage2[0].path : '';
+    const final_imag3 = req.files && req.files.uploadimage3 ? req.files.uploadimage3[0].path : '';
+
+    if (!final_imag1 || !final_imag2 || !final_imag3) {
+      return res.render('insertproduct', { MSGGG: "Please upload all three images." });
+    }
 
     await Product.insertProduct({ productid, productname, final_imag1, final_imag2, final_imag3, price });
     await Product.insertCategory(productid, Category);

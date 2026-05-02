@@ -35,7 +35,12 @@ app.engine('hbs', engine({
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
   helpers: {
-    eq: (a, b) => a === b
+    eq: (a, b) => a === b,
+    getImageUrl: (url) => {
+      if (!url) return '';
+      if (url.startsWith('http')) return url;
+      return `/${url}`;
+    }
   }
 }));
 app.set('view engine', 'hbs');

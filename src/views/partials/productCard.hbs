@@ -1,7 +1,7 @@
 <div class="card" style="border-radius: 50px;">
     <span class="category">{{category}}</span>
     <h3 style="font-size: 1.8rem; font-weight: 900;">{{this.Pname}}</h3>
-    <img src="/{{this.Firstimg}}" alt="{{this.Pname}}" style="transition: var(--transition);">
+    <img src="{{getImageUrl this.Firstimg}}" alt="{{this.Pname}}" style="transition: var(--transition);">
     <div class="footer">
         <p class="price" style="font-size: 1.8rem;">${{this.price}}</p>
         <form action="/single" method="POST">
