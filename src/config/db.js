@@ -5,13 +5,21 @@ dotenv.config();
 
 let dbConfig = {};
 
+function safeDecode(str) {
+  try {
+    return decodeURIComponent(str);
+  } catch (e) {
+    return str;
+  }
+}
+
 if (process.env.DATABASE_URL) {
   const { URL } = require('url');
   const dbUrl = new URL(process.env.DATABASE_URL);
   dbConfig = {
     host: dbUrl.hostname,
-    user: decodeURIComponent(dbUrl.username),
-    password: decodeURIComponent(dbUrl.password),
+    user: safeDecode(dbUrl.username),
+    password: safeDecode(dbUrl.password),
     database: dbUrl.pathname.slice(1),
     port: dbUrl.port ? parseInt(dbUrl.port, 10) : 3306,
     ssl: {
