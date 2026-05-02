@@ -3,18 +3,29 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Support for both local and Cloud (Aiven) databases
-const dbConfig = process.env.DATABASE_URL ? {
-  uri: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false // Required for most cloud providers like Aiven
-  }
-} : {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME || 'test',
-};
+let dbConfig = {};
+
+if (process.env.DATABASE_URL) {
+  const { URL } = require('url');
+  const dbUrl = new URL(process.env.DATABASE_URL);
+  dbConfig = {
+    host: dbUrl.hostname,
+    user: decodeURIComponent(dbUrl.username),
+    password: decodeURIComponent(dbUrl.password),
+    database: dbUrl.pathname.slice(1),
+    port: dbUrl.port ? parseInt(dbUrl.port, 10) : 3306,
+    ssl: {
+      rejectUnauthorized: false // Required for cloud providers like Aiven
+    }
+  };
+} else {
+  dbConfig = {
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'test',
+  };
+}
 
 const pool = mysql2.createPool({
   ...dbConfig,
